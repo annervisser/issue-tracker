@@ -1,0 +1,6 @@
+imports:
+#  - src/Content/Content.depfile.yml
+  - src/Shared/Shared.deptrac.yaml
+parameters:
+  paths:
+    - ./src
