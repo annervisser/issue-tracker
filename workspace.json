@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "issue-tracker": "apps/issue-tracker",
+    "issue-tracker-e2e": "apps/issue-tracker-e2e"
+  }
+}

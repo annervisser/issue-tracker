@@ -1,0 +1,28 @@
+{
+  "root": "apps/issue-tracker-e2e",
+  "sourceRoot": "apps/issue-tracker-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/issue-tracker-e2e/cypress.json",
+        "devServerTarget": "issue-tracker:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "issue-tracker:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/issue-tracker-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["issue-tracker"]
+}
