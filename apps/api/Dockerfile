@@ -1,14 +1,18 @@
 FROM php:8.1-fpm
 RUN apt-get update \
-    && apt-get install -y zlib1g-dev g++ wget git libicu-dev libzip-dev zip \
-	&& docker-php-ext-install intl opcache pdo pdo_mysql \
-	&& pecl install apcu \
-	&& docker-php-ext-enable apcu \
-	&& docker-php-ext-configure zip \
-	&& docker-php-ext-install zip
+    && apt-get install -y zlib1g-dev g++ wget git
 
-# Install composer
+# Setup install-php-extension script
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/1.4.17/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+
+# Setup php extensions
+RUN install-php-extensions apcu igbinary zip intl opcache pdo_mysql gmp bcmath uuid xdebug
+
+# Setup composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+
 COPY . /srv/app
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
