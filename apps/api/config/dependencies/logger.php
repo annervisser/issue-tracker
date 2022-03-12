@@ -20,8 +20,8 @@ return static function (ContainerBuilder $containerBuilder): void {
             $logger = new Logger((string) $settings->get('logger.name'));
             $logger->pushProcessor(new UidProcessor());
 
-            $logLevel = (string) $settings->get('logger.level');
-            Assert::oneOf($logLevel, array_keys(Logger::getLevels()));
+            $logLevel = (int) $settings->get('logger.level');
+            Assert::oneOf($logLevel, array_values(Logger::getLevels()));
 
             $handler = new StreamHandler((string) $settings->get('logger.path'), $logLevel);
             $logger->pushHandler($handler);

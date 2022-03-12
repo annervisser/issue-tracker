@@ -6,6 +6,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: issue_tracker
     ports:
       - "3306:3306"
   api:
