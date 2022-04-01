@@ -13,7 +13,7 @@ flowchart LR
     subgraph Application
         CQ
     end
-   subgraph Model
+   subgraph Domain
         M
     end
 ```
@@ -30,7 +30,7 @@ flowchart RL
     subgraph Application
         R
     end
-   subgraph Model
+   subgraph Domain
         M
     end
 ```
