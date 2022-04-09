@@ -26,4 +26,10 @@ class DoctrineStoryRepository implements StoryRepository
     {
         return $this->em->find(Story::class, $id);
     }
+
+    /** {@inheritDoc} */
+    public function list(): array
+    {
+        return $this->em->getRepository(Story::class)->findAll();
+    }
 }

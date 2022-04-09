@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 use Core\Ports\Rest\Story\CreateStoryAction;
 use Core\Ports\Rest\Story\GetStoryAction;
+use Core\Ports\Rest\Story\ListStoriesAction;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -17,6 +18,7 @@ return static function (App $app): void {
 //    });
 
     $app->group('/stories', function (RouteCollectorProxy $group): void {
+        $group->get('', ListStoriesAction::class);
         $group->get('/{id}', GetStoryAction::class);
         $group->post('', CreateStoryAction::class);
     });

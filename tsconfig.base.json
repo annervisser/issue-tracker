@@ -18,6 +18,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@issue-tracker/data-access": [
+        "libs/data-access/src/index.ts"
+      ],
       "@issue-tracker/kanban-board": [
         "libs/kanban-board/src/index.ts"
       ]
