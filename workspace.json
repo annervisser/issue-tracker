@@ -3,6 +3,7 @@
   "projects": {
     "api": "apps/api",
     "issue-tracker": "apps/issue-tracker",
-    "issue-tracker-e2e": "apps/issue-tracker-e2e"
+    "issue-tracker-e2e": "apps/issue-tracker-e2e",
+    "kanban-board": "libs/kanban-board"
   }
 }

@@ -1,0 +1,28 @@
+{
+  "projectType": "library",
+  "root": "libs/kanban-board",
+  "sourceRoot": "libs/kanban-board/src",
+  "prefix": "issue-tracker",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/kanban-board"
+      ],
+      "options": {
+        "jestConfig": "libs/kanban-board/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/kanban-board/src/**/*.ts",
+          "libs/kanban-board/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,16 @@
+@mixin lato-font-face($file, $weight, $style) {
+    @font-face {
+        font-family: 'LatoLatinWeb';
+        src: url('../assets/fonts/#{$file}.woff2') format('woff2');
+        font-weight: $weight;
+        font-style: $style;
+        @content;
+    }
+}
+
+@include lato-font-face('LatoLatin-Light', 300, normal);
+@include lato-font-face('LatoLatin-LightItalic', 300, italic);
+@include lato-font-face('LatoLatin-Regular', normal, normal);
+@include lato-font-face('LatoLatin-Italic', normal, italic);
+@include lato-font-face('LatoLatin-Bold', bold, normal);
+@include lato-font-face('LatoLatin-BoldItalic', bold, italic);

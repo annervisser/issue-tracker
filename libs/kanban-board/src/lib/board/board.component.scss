@@ -1,0 +1,51 @@
+:host {
+    display: flex;
+    height: 100%;
+    background: #f7f7f7;
+
+    gap: 1rem;
+}
+
+.column {
+    flex: 1 0;
+    padding: 1rem;
+
+    h2 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        white-space: nowrap;
+    }
+
+    .column-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border-radius: 4px;
+        gap: 1rem;
+        //background: #e8e8e8;
+    }
+
+    &.empty {
+        flex: 0 max-content;
+        padding-inline: 0;
+
+        opacity: .8;
+
+        .column-content {
+            padding-top: .5rem;
+            flex: 0;
+        }
+    }
+}
+
+.card {
+    padding: .5rem 1rem;
+    border-left: 2px solid dodgerblue;
+    border-radius: 4px;
+    background: white;
+    box-shadow: 0 6px 15px rgba(47, 128, 237, 0.1);
+
+    h3 {
+        font-size: 1rem
+    }
+}

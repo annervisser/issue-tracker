@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+header {
+    flex: 0;
+    background: rebeccapurple;
+    color: white;
+    padding: 1rem;
+
+    h1 {
+        margin: 0;
+    }
+}
+
+main {
+    flex: 1;
+}
