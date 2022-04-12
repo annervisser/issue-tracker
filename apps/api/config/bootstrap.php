@@ -14,7 +14,7 @@ $config      = require __DIR__ . '/config.php';
 $settings    = new Settings($config);
 $localConfig = __DIR__ . '/config.local.php';
 if (file_exists($localConfig)) {
-    $settingsArray = (array) require $localConfig;
+    $settingsArray = require $localConfig;
     Assert::isMap($settingsArray);
     $settings = $settings->addSettings($settingsArray);
 }

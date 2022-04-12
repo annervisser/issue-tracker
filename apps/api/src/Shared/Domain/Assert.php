@@ -12,6 +12,6 @@ class Assert extends WebMozartAssert
     public static function uuidV1(UuidInterface $value, string $message = ''): void
     {
         /** @psalm-suppress DeprecatedMethod getVersion is deprecated but also used in doctrine-uuid */
-        self::eq($value->getVersion(), 1, $message);
+        self::eq($value->getVersion(), 1, $message ?: 'Expected uuid to be of type 1, Got: %s');
     }
 }

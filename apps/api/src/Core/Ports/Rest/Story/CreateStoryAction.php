@@ -8,6 +8,7 @@ use Core\Application\Command\Story\CreateStoryCommand;
 use Core\Application\Command\Story\CreateStoryCommandHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Shared\Ports\Data\DataBag;
 use Shared\Ports\Rest\JsonSerializer;
 use Shared\Ports\Rest\RestAction;
 use Webmozart\Assert\Assert;
@@ -27,10 +28,15 @@ class CreateStoryAction implements RestAction
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args
-    ): ResponseInterface {
+    ): ResponseInterface
+    {
         $requestData = $request->getParsedBody();
         Assert::isArray($requestData);
-        $command = new CreateStoryCommand((string) $requestData['title']);
+        $dataBag = DataBag::fromArray($requestData);
+        $command = new CreateStoryCommand(
+            $dataBag->getString('title'),
+            $dataBag->getUuid('stateId')
+        );
         $storyId = ($this->createStoryCommandHandler)($command);
 
         return $this->jsonSerializer->setJsonBody(['storyId' => $storyId], $response);

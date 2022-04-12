@@ -15,7 +15,7 @@ use function trim;
 class StoryTitle
 {
     /** @var non-empty-string */
-    #[Column(name: 'title', type: 'string', length: 150)]
+    #[Column(length: 150)]
     protected readonly string $title;
 
     public function __construct(string $title)

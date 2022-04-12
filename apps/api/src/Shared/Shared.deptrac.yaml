@@ -15,8 +15,10 @@ parameters:
 
   ruleset:
     SharedDomain: ~
-    SharedInfra: ~
-    SharedPorts: ~
+    SharedInfra:
+      - SharedDomain
+    SharedPorts:
+      - SharedDomain
 
   formatters:
     graphviz:

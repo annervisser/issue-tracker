@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Core\Ports\Rest\Story;
+namespace Core\Ports\Rest\State;
 
-use Core\Application\Query\Story\ListStoriesQueryHandler;
+use Core\Application\Query\State\ListStatesQueryHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Shared\Ports\Rest\JsonSerializer;
 use Shared\Ports\Rest\RestAction;
 
-class ListStoriesAction implements RestAction
+class ListStatesAction implements RestAction
 {
     public function __construct(
-        private readonly ListStoriesQueryHandler $listStoryQueryHandler,
+        private readonly ListStatesQueryHandler $listStateQueryHandler,
         private readonly JsonSerializer $jsonSerializer,
     ) {
     }
@@ -24,7 +24,7 @@ class ListStoriesAction implements RestAction
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $stories = ($this->listStoryQueryHandler)();
+        $stories = ($this->listStateQueryHandler)();
 
         return $this->jsonSerializer->setJsonBody($stories, $response);
     }

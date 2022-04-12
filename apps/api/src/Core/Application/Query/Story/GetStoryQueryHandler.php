@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core\Application\Query\Story;
 
 use Core\Domain\Story\StoryRepository;

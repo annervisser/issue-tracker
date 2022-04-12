@@ -1,22 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core\Application\Command\Story;
 
+use Core\Domain\State\StateRepository;
 use Core\Domain\Story\Story;
 use Core\Domain\Story\StoryRepository;
 use Core\Domain\Story\StoryTitle;
 use Ramsey\Uuid\UuidInterface;
+use Webmozart\Assert\Assert;
 
 final class CreateStoryCommandHandler
 {
     public function __construct(
-        private readonly StoryRepository $storyRepository
+        private readonly StoryRepository $storyRepository,
+        private readonly StateRepository $stateRepository,
     ) {
     }
 
     public function __invoke(CreateStoryCommand $command): UuidInterface
     {
-        $story = Story::create(new StoryTitle($command->title));
+        $state = $this->stateRepository->find($command->stateId);
+        Assert::notNull($state, 'Unknown state provided');
+        $story = Story::create(new StoryTitle($command->title), $state);
         $this->storyRepository->create($story);
 
         return $story->getId();
