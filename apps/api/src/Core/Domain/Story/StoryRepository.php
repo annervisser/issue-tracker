@@ -14,4 +14,7 @@ interface StoryRepository
 
     /** @return list<Story> */
     public function list(): array;
+
+    /** @return list<Story> */
+    public function inState(UuidInterface $stateId): array;
 }

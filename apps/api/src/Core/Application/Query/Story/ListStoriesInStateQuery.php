@@ -7,11 +7,11 @@ namespace Core\Application\Query\Story;
 use Ramsey\Uuid\UuidInterface;
 use Shared\Domain\Assert;
 
-class GetStoryQuery
+class ListStoriesInStateQuery
 {
     public function __construct(
-        public readonly UuidInterface $storyId
+        public readonly UuidInterface $stateId
     ) {
-        Assert::uuidV1($this->storyId);
+        Assert::uuidV1($this->stateId);
     }
 }

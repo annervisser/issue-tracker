@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardComponent } from './board/board.component';
-import { IssueCardComponent } from './issue-card/issue-card.component';
+import { StoryCardComponent } from './story-card/story-card.component';
 import { DataAccessModule } from '@issue-tracker/data-access';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [CommonModule, DataAccessModule, ReactiveFormsModule],
-    declarations: [BoardComponent, IssueCardComponent]
+    declarations: [BoardComponent, StoryCardComponent]
 })
 export class KanbanBoardModule {
 }

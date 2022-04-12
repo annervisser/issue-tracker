@@ -32,4 +32,10 @@ class DoctrineStoryRepository implements StoryRepository
     {
         return $this->em->getRepository(Story::class)->findAll();
     }
+
+    /** {@inheritDoc} */
+    public function inState(UuidInterface $stateId): array
+    {
+        return $this->em->getRepository(Story::class)->findBy(['state' => $stateId]);
+    }
 }

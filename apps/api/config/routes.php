@@ -9,18 +9,20 @@ use Core\Ports\Rest\State\ListStatesAction;
 use Core\Ports\Rest\Story\CreateStoryAction;
 use Core\Ports\Rest\Story\GetStoryAction;
 use Core\Ports\Rest\Story\ListStoriesAction;
+use Core\Ports\Rest\Story\ListStoriesInStateAction;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
 // phpcs:disable SlevomatCodingStandard.Functions.StaticClosure.ClosureNotStatic -- router requires non-static callbacks
+// phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
 return static function (App $app): void {
-//    $app->options('/{routes:.*}', static function (Request $request, Response $response) {
-//        // CORS Pre-Flight OPTIONS Request Handler
-//        return $response;
-//    });
+    $app->options('/{routes:.*}', fn (ServerRequestInterface $_request, ResponseInterface $response) => $response);
 
     $app->group('/stories', function (RouteCollectorProxy $group): void {
         $group->get('', ListStoriesAction::class);
+        $group->get('/state/{stateId}', ListStoriesInStateAction::class);
         $group->get('/{id}', GetStoryAction::class);
         $group->post('', CreateStoryAction::class);
     });

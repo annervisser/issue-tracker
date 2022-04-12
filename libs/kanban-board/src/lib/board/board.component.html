@@ -1,27 +1,46 @@
-<div class='column'>
-    <h2>To Do</h2>
-    <div class='column-content'>
-        <ng-container *ngFor='let issue of boardService.issues$ | async'>
-            <issue-tracker-issue-card [title]='issue.title'></issue-tracker-issue-card>
-        </ng-container>
-        <div>
-            <form (submit)='$event.preventDefault(); boardService.createStory(title.value); title.value = ""'>
-                <input type='text' #title>
-                <button type='submit'>+</button>
-            </form>
+<ng-container *ngFor='let state of boardService.states$ | async'>
+    <div class='column'>
+        <h2>{{state.name}}</h2>
+        <div class='column-content' *ngIf='(boardService.stories$ | async) as stories'>
+            <ng-container *ngFor='let story of stories[state.id]'>
+                <issue-tracker-story-card [title]='story.title'></issue-tracker-story-card>
+            </ng-container>
+            <div>
+                <form
+                    (submit)='$event.preventDefault(); boardService.createStory(title.value, state.id); title.value = ""'>
+                    <input type='text' #title>
+                    <button type='submit'>+</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<div class='column empty'>
-    <h2>In Progress</h2>
-    <div class='column-content'>
-        Nothing to see here
-    </div>
-</div>
-<div class='column'>
-    <h2>Done</h2>
-    <div class='column-content'>
-        <issue-tracker-issue-card title='Setup Nx'></issue-tracker-issue-card>
-        <issue-tracker-issue-card title='Create UI lib'></issue-tracker-issue-card>
-    </div>
-</div>
+</ng-container>
+
+
+<!--<div class='column'>-->
+<!--    <h2>To Do</h2>-->
+<!--    <div class='column-content'>-->
+<!--        <ng-container *ngFor='let issue of boardService.stories$ | async'>-->
+<!--            <issue-tracker-story-card [title]='issue.title'></issue-tracker-story-card>-->
+<!--        </ng-container>-->
+<!--        <div>-->
+<!--            <form (submit)='$event.preventDefault(); boardService.createStory(title.value); title.value = ""'>-->
+<!--                <input type='text' #title>-->
+<!--                <button type='submit'>+</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class='column empty'>-->
+<!--    <h2>In Progress</h2>-->
+<!--    <div class='column-content'>-->
+<!--        Nothing to see here-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class='column'>-->
+<!--    <h2>Done</h2>-->
+<!--    <div class='column-content'>-->
+<!--        <issue-tracker-story-card title='Setup Nx'></issue-tracker-story-card>-->
+<!--        <issue-tracker-story-card title='Create UI lib'></issue-tracker-story-card>-->
+<!--    </div>-->
+<!--</div>-->

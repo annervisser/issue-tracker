@@ -8,10 +8,10 @@ use Core\Application\Query\Story\GetStoryQuery;
 use Core\Application\Query\Story\GetStoryQueryHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Shared\Ports\Data\DataBag;
 use Shared\Ports\Rest\JsonSerializer;
 use Shared\Ports\Rest\RestAction;
 use Slim\Exception\HttpNotFoundException;
-use Webmozart\Assert\Assert;
 
 use function sprintf;
 
@@ -32,16 +32,17 @@ class GetStoryAction implements RestAction
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args
-    ): ResponseInterface {
-        Assert::string($args['id']);
-        $id    = $args['id'];
-        $query = GetStoryQuery::fromString($args['id']);
-        $story = ($this->getStoryQueryHandler)($query);
+    ): ResponseInterface
+    {
+        $dataBag = DataBag::fromArray($args);
+        $id      = $dataBag->getUuid('id');
+        $query   = new GetStoryQuery($id);
+        $story   = ($this->getStoryQueryHandler)($query);
 
         if (! isset($story)) {
             throw new HttpNotFoundException(
                 $request,
-                sprintf('Story with uuid %s not found', $id)
+                sprintf('Story with uuid %s not found', $id->toString())
             );
         }
 
