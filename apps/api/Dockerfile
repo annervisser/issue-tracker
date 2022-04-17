@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM docker.io/php:8.1-fpm
 RUN apt-get update \
     && apt-get install -y zlib1g-dev g++ wget git
 
@@ -10,7 +10,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions
 RUN install-php-extensions apcu igbinary zip intl opcache pdo_mysql gmp bcmath uuid xdebug
 
 # Setup composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=docker.io/composer /usr/bin/composer /usr/bin/composer
 
 
 COPY . /srv/app
@@ -20,5 +20,6 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN groupadd --system -g 1000 docker
 RUN adduser --system --uid 1000 --disabled-password --ingroup docker docker
 USER docker:docker
+ENV docker=true
 
 WORKDIR /srv/app
