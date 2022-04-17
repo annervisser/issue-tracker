@@ -17,7 +17,7 @@ services:
     depends_on:
       - database
   caddy:
-    image: docker.io/caddy:2.5.0-beta.1-alpine
+    image: docker.io/caddy:2.5.0-rc.1
     restart: unless-stopped
     ports:
       - "80:80"

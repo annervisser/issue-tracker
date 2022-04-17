@@ -3,7 +3,7 @@ RUN apt-get update \
     && apt-get install -y zlib1g-dev g++ wget git
 
 # Setup install-php-extension script
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/1.4.17/install-php-extensions /usr/local/bin/
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/1.5.8/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 
 # Setup php extensions
