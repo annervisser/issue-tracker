@@ -70,4 +70,32 @@ export class BoardStore extends ComponentState<BoardState> {
             });
         });
     }
+
+    moveStory(storyId: string, stateId: string) {
+        const state = this.state;
+        const [previousStateId] = Object.entries(state.storiesByState)
+            .find(([_, stories]) => stories.some(story => story.id === storyId)) ?? [];
+
+        if (!previousStateId) {
+            throw new Error('Story doesnt exist in any state');
+        }
+
+        const indexInPreviousState = state.storiesByState[previousStateId].findIndex(story => story.id === storyId);
+        const story = state.storiesByState[previousStateId][indexInPreviousState];
+
+        this.updateState(draft => {
+            draft.storiesByState[previousStateId].splice(indexInPreviousState, 1);
+            draft.storiesByState[stateId].push(story);
+        });
+    }
+
+    reorderStory(storyId: string, stateId: string, moveToIndex: number) {
+        const state = this.state;
+        const currentIndex = state.storiesByState[stateId].findIndex(story => story.id === storyId);
+        const story = state.storiesByState[stateId][currentIndex];
+        this.updateState(draft => {
+            draft.storiesByState[stateId].splice(currentIndex, 1);
+            draft.storiesByState[stateId].splice(moveToIndex, 0, story);
+        });
+    }
 }

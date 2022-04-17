@@ -1,18 +1,29 @@
-<ng-container *ngFor='let state of boardStore.states$ | async'>
+<ng-container *ngFor='let state of boardStore.states$ | async; trackBy: trackByStateId'>
     <div class='column'>
         <h2>{{state.name}}</h2>
-        <div class='column-content' *ngIf='(boardStore.storiesByState$ | async) as stories'>
-            <ng-container *ngFor='let story of stories[state.id]'>
+
+        <div *ngIf='boardStore.storiesByState$ | async as stories'
+             class='column-content'
+             cdkDropList
+             [cdkDropListData]='state.id'
+             (cdkDropListDropped)='drop($event)'
+        >
+            <ng-container *ngFor='let story of stories[state.id]; trackBy: trackByStoryId'>
                 <issue-tracker-story-card [title]='story.title'
-                                          (delete)='deleteStory(story.id)'></issue-tracker-story-card>
+                                          (delete)='deleteStory(story.id)'
+                                          cdkDrag
+                                          [cdkDragData]='story.id'
+                >
+                </issue-tracker-story-card>
             </ng-container>
-            <div>
-                <form
-                    (submit)='$event.preventDefault(); createStory(title.value, state.id); title.value = ""'>
-                    <input type='text' #title>
-                    <button type='submit'>+</button>
-                </form>
-            </div>
+        </div>
+
+        <div class='create-story-form'>
+            <form
+                (submit)='$event.preventDefault(); createStory(title.value, state.id); title.value = ""'>
+                <input type='text' #title>
+                <button type='submit'>+</button>
+            </form>
         </div>
     </div>
 </ng-container>

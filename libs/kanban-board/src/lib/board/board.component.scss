@@ -19,10 +19,12 @@
     .column-content {
         display: flex;
         flex-direction: column;
-        height: 100%;
         border-radius: 4px;
         gap: 1rem;
-        //background: #e8e8e8;
+    }
+
+    .create-story-form {
+        margin-top: 1rem;
     }
 
     &.empty {
@@ -36,4 +38,29 @@
             flex: 0;
         }
     }
+}
+
+/* ## CDK drag-drop behaviour ## */
+.drop-list-group {
+    display: contents;
+}
+
+.cdk-drop-list-receiving { // Any column that could be a drop target
+    min-height: 2rem;
+}
+
+.cdk-drag { // All drag items
+    will-change: transform;
+}
+
+.cdk-drop-list-dragging .cdk-drag { // Items in a column that is being dragged in
+    transition: transform 250ms cubic-bezier(.2, 0, 0, 1);
+}
+
+.cdk-drag-animating { // The dragged item transition from dragging to being placed
+    transition: transform 100ms cubic-bezier(.2, 0, 0, 1);
+}
+
+.cdk-drag-placeholder { // the placeholder item in the current drop position
+    opacity: 0;
 }
