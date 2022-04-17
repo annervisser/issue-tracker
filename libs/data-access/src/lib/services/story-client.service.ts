@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { Story } from '../types/story';
 import { Temporal } from '@js-temporal/polyfill';
 import { State } from '../types/state';
+import { mapArray } from '../utils';
 
 interface StoryResponse {
     id: string;
@@ -38,26 +39,31 @@ export class StoryClient {
     constructor(private httpClient: HttpClient) {
     }
 
-    listStories(): Observable<Array<Story>> {
-        return this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}`)
-            .pipe(map((response) => response.map(storyResponseToStory)));
+    listStories(): Promise<Array<Story>> {
+        let response$ = this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}`)
+            .pipe(map(mapArray(storyResponseToStory)));
+        return firstValueFrom(response$);
     }
 
-    listStoriesInState(stateId: string): Observable<Array<Story>> {
-        return this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}/state/${stateId}`)
-            .pipe(map((response) => response.map(storyResponseToStory)));
+    listStoriesInState(stateId: string): Promise<Array<Story>> {
+        let response$ = this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}/state/${stateId}`)
+            .pipe(map(mapArray(storyResponseToStory)));
+        return firstValueFrom(response$);
     }
 
-    getStory(id: string): Observable<Story> {
-        return this.httpClient.get<StoryResponse>(`${this.baseUrl}/${id}`)
+    getStory(id: string): Promise<Story> {
+        let response$ = this.httpClient.get<StoryResponse>(`${this.baseUrl}/${id}`)
             .pipe(map(storyResponseToStory));
+        return firstValueFrom(response$);
     }
 
-    createStory(request: CreateStoryRequest): Observable<CreateStoryResponse> {
-        return this.httpClient.post<CreateStoryResponse>(`${this.baseUrl}`, request);
+    createStory(request: CreateStoryRequest): Promise<CreateStoryResponse> {
+        let response$ = this.httpClient.post<CreateStoryResponse>(`${this.baseUrl}`, request);
+        return firstValueFrom(response$);
     }
 
-    deleteStory(id: string): Observable<void> {
-        return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+    deleteStory(id: string): Promise<void> {
+        let response$ = this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+        return firstValueFrom(response$);
     }
 }

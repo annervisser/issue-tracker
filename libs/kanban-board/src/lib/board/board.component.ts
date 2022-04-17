@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BoardStore } from './board.store';
+import { BoardStore } from './board-store.service';
 
 @Component({
     selector: 'issue-tracker-board',

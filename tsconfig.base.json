@@ -11,13 +11,16 @@
     "target": "es2015",
     "module": "esnext",
     "lib": [
-      "es2017",
+      "es2020",
       "dom"
     ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@issue-tracker/component-state": [
+        "libs/component-state/src/index.ts"
+      ],
       "@issue-tracker/data-access": [
         "libs/data-access/src/index.ts"
       ],
@@ -26,5 +29,8 @@
       ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

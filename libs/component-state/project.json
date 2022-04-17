@@ -1,0 +1,28 @@
+{
+  "projectType": "library",
+  "root": "libs/component-state",
+  "sourceRoot": "libs/component-state/src",
+  "prefix": "issue-tracker",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/component-state"
+      ],
+      "options": {
+        "jestConfig": "libs/component-state/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/component-state/src/**/*.ts",
+          "libs/component-state/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

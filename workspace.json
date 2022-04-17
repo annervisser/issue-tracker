@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "component-state": "libs/component-state",
     "data-access": "libs/data-access",
     "issue-tracker": "apps/issue-tracker",
     "issue-tracker-e2e": "apps/issue-tracker-e2e",
