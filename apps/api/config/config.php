@@ -14,7 +14,7 @@ return [
     'container' => ['enableCompilation' => true],
     'logger' => [
         'name' => 'slim-app',
-        'path' => isset($_ENV['docker']) ? 'php://stdout' : $appRoot . '/logs/app.log',
+        'path' => getenv('docker') !== false ? 'php://stdout' : $appRoot . '/logs/app.log',
         'level' => Logger::DEBUG,
     ],
     'doctrine' => [

@@ -32,8 +32,7 @@ class GetStoryAction implements RestAction
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $dataBag = DataBag::fromArray($args);
         $id      = $dataBag->getUuid('id');
         $query   = new GetStoryQuery($id);

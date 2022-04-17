@@ -28,8 +28,7 @@ class CreateStoryAction implements RestAction
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $args
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $requestData = $request->getParsedBody();
         Assert::isArray($requestData);
         $dataBag = DataBag::fromArray($requestData);
