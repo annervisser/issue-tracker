@@ -29,6 +29,7 @@ return static function (App $app): void {
         // TODO do this properly, instead of allowing everything
         return $handler->handle($request)
             ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', '*');
+            ->withHeader('Access-Control-Allow-Headers', '*')
+            ->withHeader('Access-Control-Allow-Methods', '*');
     });
 };

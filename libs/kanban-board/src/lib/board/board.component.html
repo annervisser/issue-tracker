@@ -3,7 +3,8 @@
         <h2>{{state.name}}</h2>
         <div class='column-content' *ngIf='(boardStore.storiesByState$ | async) as stories'>
             <ng-container *ngFor='let story of stories[state.id]'>
-                <issue-tracker-story-card [title]='story.title'></issue-tracker-story-card>
+                <issue-tracker-story-card [title]='story.title'
+                                          (delete)='deleteStory(story.id)'></issue-tracker-story-card>
             </ng-container>
             <div>
                 <form

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'issue-tracker-story-card',
@@ -8,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class StoryCardComponent implements OnInit {
     // TODO replace this input with an Issue object
     @Input() title!: string;
+
+    @Output() delete = new EventEmitter<void>();
 
     constructor() {
     }

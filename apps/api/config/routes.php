@@ -7,6 +7,7 @@ declare(strict_types=1);
 use Core\Ports\Rest\State\GetStateAction;
 use Core\Ports\Rest\State\ListStatesAction;
 use Core\Ports\Rest\Story\CreateStoryAction;
+use Core\Ports\Rest\Story\DeleteStoryAction;
 use Core\Ports\Rest\Story\GetStoryAction;
 use Core\Ports\Rest\Story\ListStoriesAction;
 use Core\Ports\Rest\Story\ListStoriesInStateAction;
@@ -25,6 +26,7 @@ return static function (App $app): void {
         $group->get('/state/{stateId}', ListStoriesInStateAction::class);
         $group->get('/{id}', GetStoryAction::class);
         $group->post('', CreateStoryAction::class);
+        $group->delete('/{id}', DeleteStoryAction::class);
     });
 
     $app->group('/states', function (RouteCollectorProxy $group): void {

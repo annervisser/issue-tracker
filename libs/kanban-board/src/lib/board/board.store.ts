@@ -70,4 +70,21 @@ export class BoardStore extends ComponentStore<BoardState> {
             ))
         );
     });
+
+    readonly deleteStory = this.effect((storyId$: Observable<string>) => {
+        return storyId$.pipe(
+            switchMap((storyId) => this.storyClient.deleteStory(storyId).pipe(
+                tapResponse(
+                    () => this.patchState(state => {
+                        const newStoriesByState: BoardState['storiesByState'] = {};
+                        for (const [storyState, stories] of Object.entries(state.storiesByState)) {
+                            newStoriesByState[storyState] = stories.filter(s => s.id !== storyId);
+                        }
+                        return { storiesByState: newStoriesByState };
+                    }),
+                    console.error
+                )
+            ))
+        );
+    });
 }

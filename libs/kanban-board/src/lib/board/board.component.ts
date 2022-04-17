@@ -16,7 +16,11 @@ export class BoardComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    createStory(title: string, stateId: string) {
+    createStory(title: string, stateId: string): void {
         this.boardStore.createStory({ title, stateId });
+    }
+
+    deleteStory(storyId: string): void {
+        this.boardStore.deleteStory(storyId);
     }
 }

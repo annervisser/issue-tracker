@@ -12,6 +12,8 @@ interface StoryRepository
 
     public function find(UuidInterface $id): Story|null;
 
+    public function delete(UuidInterface $id): void;
+
     /** @return list<Story> */
     public function list(): array;
 

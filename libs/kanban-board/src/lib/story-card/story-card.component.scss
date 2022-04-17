@@ -1,12 +1,44 @@
 :host {
-    display: block;
-    padding: .5rem 1rem;
+    display: flex;
+    align-items: stretch;
+    min-height: 3rem;
+
     border-left: 2px solid dodgerblue;
     border-radius: 4px;
     background: white;
     box-shadow: 0 6px 15px rgba(47, 128, 237, 0.1);
 
+
     h3 {
-        font-size: 1rem
+        flex: 1;
+        font-size: 1rem;
+        padding-left: .5rem;
+        padding-block: 1rem;
+
+        &:not(:only-child) {
+            padding-right: .5rem;
+            border-right: 1px solid #eee;
+        }
+    }
+
+    button {
+        padding: 1rem;
+        border-radius: 0 4px 4px 0;
+        aspect-ratio: 1;
+
+        background: none;
+        border: none;
+        transition: all 200ms ease;
+        cursor: pointer;
+
+        &:hover, &:focus, &:active {
+            background: rgb(230, 230, 230)
+        }
+
+        &:active {
+            transform: scale(.8);
+            box-shadow: -2px 2px 8px rgba(black, 0.1);
+            border-radius: 50%;
+        }
     }
 }

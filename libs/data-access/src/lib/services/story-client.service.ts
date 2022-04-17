@@ -33,28 +33,31 @@ interface CreateStoryResponse {
 
 @Injectable({ providedIn: 'root' })
 export class StoryClient {
-    private readonly baseUrl: string = 'https://localhost';
+    private readonly baseUrl: string = 'https://localhost/stories';
 
     constructor(private httpClient: HttpClient) {
     }
 
     listStories(): Observable<Array<Story>> {
-        return this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}/stories`)
+        return this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}`)
             .pipe(map((response) => response.map(storyResponseToStory)));
     }
 
     listStoriesInState(stateId: string): Observable<Array<Story>> {
-        return this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}/stories/state/${stateId}`)
+        return this.httpClient.get<Array<StoryResponse>>(`${this.baseUrl}/state/${stateId}`)
             .pipe(map((response) => response.map(storyResponseToStory)));
     }
 
     getStory(id: string): Observable<Story> {
-        return this.httpClient.get<StoryResponse>(`${this.baseUrl}/stories/${id}`)
+        return this.httpClient.get<StoryResponse>(`${this.baseUrl}/${id}`)
             .pipe(map(storyResponseToStory));
     }
 
     createStory(request: CreateStoryRequest): Observable<CreateStoryResponse> {
-        return this.httpClient.post<CreateStoryResponse>(`${this.baseUrl}/stories`, request);
+        return this.httpClient.post<CreateStoryResponse>(`${this.baseUrl}`, request);
     }
 
+    deleteStory(id: string): Observable<void> {
+        return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+    }
 }
