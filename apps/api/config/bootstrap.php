@@ -7,6 +7,8 @@ use Shared\Infra\Settings\Settings;
 use Shared\Infra\Settings\SettingsInterface;
 use Webmozart\Assert\Assert;
 
+require __DIR__ . '/../vendor/autoload.php';
+
 $containerBuilder = new ContainerBuilder();
 
 // Set up settings

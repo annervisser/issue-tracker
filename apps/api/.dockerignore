@@ -1,0 +1,14 @@
+*
+!src/
+
+!config/
+config/config.local.php
+
+!deployment
+deployment/Caddyfile
+deployment/php.dev.ini
+deployment/Dockerfile
+
+!public/
+!composer.json
+!composer.lock

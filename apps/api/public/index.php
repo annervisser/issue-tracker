@@ -6,7 +6,6 @@ use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\ResponseEmitter;
 
-require __DIR__ . '/../vendor/autoload.php';
 $container = require __DIR__ . '/../config/bootstrap.php';
 
 // Instantiate the app

@@ -10,13 +10,21 @@ services:
     ports:
       - "3306:3306"
   api:
-    build: ./apps/api/
+    build:
+      context: ./apps/api/
+      dockerfile: ./deployment/Dockerfile
     restart: unless-stopped
     volumes:
       - ./apps/api:/srv/app
-      - "./apps/api/deployment/php.ini:/usr/local/etc/php/conf.d/php.overrides.ini"
+      - "./apps/api/deployment/php.dev.ini:/usr/local/etc/php/conf.d/php.overrides.ini"
     depends_on:
       - database
+    environment:
+      MYSQL_HOST: database
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: issue_tracker
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: toor
   caddy:
     image: docker.io/caddy:2.5.0-rc.1
     restart: unless-stopped

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\Type as DBALTypes;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
 use Psr\Container\ContainerInterface;
 use Ramsey\Uuid\Doctrine\UuidBinaryOrderedTimeType;
 use Shared\Infra\Doctrine\DBALSqlLogger;
@@ -24,21 +24,25 @@ return static function (ContainerBuilder $containerBuilder): void {
             $settings = $c->get(SettingsInterface::class);
             assert($settings instanceof SettingsInterface);
 
-            $config = Setup::createAnnotationMetadataConfiguration(
-                (array) $settings->get('doctrine.metadata_dirs'),
-                (bool) $settings->get('doctrine.dev_mode')
-            );
+            $doctrineDevMode = (bool) $settings->get('doctrine.dev_mode');
 
             $metaDataDirs = (array) $settings->get('doctrine.metadata_dirs');
             Assert::allString($metaDataDirs);
+
+            $config = ORMSetup::createAnnotationMetadataConfiguration(
+                $metaDataDirs,
+                $doctrineDevMode
+            );
 
             $config->setMetadataDriverImpl(
                 new AttributeDriver($metaDataDirs)
             );
 
-            $sqlLogger = $c->get(SQLLogger::class);
-            assert($sqlLogger instanceof SQLLogger);
-            $config->setSQLLogger($sqlLogger);
+            if ($doctrineDevMode) {
+                $sqlLogger = $c->get(SQLLogger::class);
+                assert($sqlLogger instanceof SQLLogger);
+                $config->setSQLLogger($sqlLogger);
+            }
 
             // TODO add explicit cache for metadata & query
 

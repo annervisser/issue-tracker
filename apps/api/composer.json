@@ -29,7 +29,8 @@
         "psalm": "psalm",
         "phpstan": "phpstan",
         "composer-require-checker": "composer-require-checker",
-        "deptrac": "deptrac"
+        "deptrac": "deptrac",
+        "doctrine": "bin/doctrine"
     },
     "autoload": {
         "psr-4": {
@@ -49,6 +50,7 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "ext-uuid": "*",
+        "ext-zend-opcache": "*",
         "doctrine/annotations": "^1.13.2",
         "doctrine/dbal": "^3.3.5",
         "doctrine/event-manager": "^1.1.1",
