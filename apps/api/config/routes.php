@@ -6,11 +6,13 @@ declare(strict_types=1);
 
 use Core\Ports\Rest\State\GetStateAction;
 use Core\Ports\Rest\State\ListStatesAction;
+use Core\Ports\Rest\Story\ChangeStoryStateAction;
 use Core\Ports\Rest\Story\CreateStoryAction;
 use Core\Ports\Rest\Story\DeleteStoryAction;
 use Core\Ports\Rest\Story\GetStoryAction;
 use Core\Ports\Rest\Story\ListStoriesAction;
 use Core\Ports\Rest\Story\ListStoriesInStateAction;
+use Core\Ports\Rest\Story\ReorderStoryAction;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
@@ -27,6 +29,8 @@ return static function (App $app): void {
         $group->get('/{id}', GetStoryAction::class);
         $group->post('', CreateStoryAction::class);
         $group->delete('/{id}', DeleteStoryAction::class);
+        $group->post('/{id}/changeState', ChangeStoryStateAction::class);
+        $group->post('/{id}/reorder', ReorderStoryAction::class);
     });
 
     $app->group('/states', function (RouteCollectorProxy $group): void {

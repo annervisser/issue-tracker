@@ -11,7 +11,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Shared\Ports\Data\DataBag;
 use Shared\Ports\Rest\JsonSerializer;
 use Shared\Ports\Rest\RestAction;
-use Webmozart\Assert\Assert;
 
 class CreateStoryAction implements RestAction
 {
@@ -29,9 +28,7 @@ class CreateStoryAction implements RestAction
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-        $requestData = $request->getParsedBody();
-        Assert::isArray($requestData);
-        $dataBag = DataBag::fromArray($requestData);
+        $dataBag = DataBag::fromRequestBody($request);
         $command = new CreateStoryCommand(
             $dataBag->getString('title'),
             $dataBag->getUuid('stateId')

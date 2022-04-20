@@ -2,7 +2,7 @@
     <div class='column'>
         <h2>{{state.name}}</h2>
 
-        <div *ngIf='boardStore.storiesByState$ | async as stories'
+        <div *ngIf='(boardStore.storiesByState$ | async) as stories'
              class='column-content'
              cdkDropList
              [cdkDropListData]='state.id'

@@ -10,6 +10,8 @@ interface StoryRepository
 {
     public function create(Story $story): void;
 
+    public function update(Story $story): void;
+
     public function find(UuidInterface $id): Story|null;
 
     public function delete(UuidInterface $id): void;
@@ -19,4 +21,6 @@ interface StoryRepository
 
     /** @return list<Story> */
     public function inState(UuidInterface $stateId): array;
+
+    public function getMaximumOrdering(UuidInterface $stateId): int;
 }

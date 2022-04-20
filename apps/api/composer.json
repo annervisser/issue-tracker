@@ -50,6 +50,7 @@
         "ext-pdo": "*",
         "ext-uuid": "*",
         "doctrine/annotations": "^1.13.2",
+        "doctrine/dbal": "^3.3.5",
         "doctrine/event-manager": "^1.1.1",
         "doctrine/orm": "^2.11.2",
         "monolog/monolog": "^2.3.5",

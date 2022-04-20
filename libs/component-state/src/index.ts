@@ -1,6 +1,7 @@
-import { enableMapSet } from 'immer';
+import { enableMapSet, enablePatches } from 'immer';
 
 enableMapSet();
+enablePatches();
 
 
 export * from './lib/component-state.module';

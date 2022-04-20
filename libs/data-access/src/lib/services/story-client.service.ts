@@ -58,12 +58,22 @@ export class StoryClient {
     }
 
     createStory(request: CreateStoryRequest): Promise<CreateStoryResponse> {
-        let response$ = this.httpClient.post<CreateStoryResponse>(`${this.baseUrl}`, request);
+        let response$ = this.httpClient.post<CreateStoryResponse>(`${this.baseUrl}`, request, { withCredentials: true });
         return firstValueFrom(response$);
     }
 
     deleteStory(id: string): Promise<void> {
         let response$ = this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+        return firstValueFrom(response$);
+    }
+
+    changeState(storyId: string, newStateId: string): Promise<void> {
+        const response$ = this.httpClient.post<void>(`${this.baseUrl}/${storyId}/changeState`, { newState: newStateId });
+        return firstValueFrom(response$);
+    }
+
+    reorderStory(storyId: string, moveAfterStoryId: string | null): Promise<void> {
+        const response$ = this.httpClient.post<void>(`${this.baseUrl}/${storyId}/reorder`, { afterStory: moveAfterStoryId });
         return firstValueFrom(response$);
     }
 }

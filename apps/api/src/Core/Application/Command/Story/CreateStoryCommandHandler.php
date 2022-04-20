@@ -23,7 +23,8 @@ final class CreateStoryCommandHandler
     {
         $state = $this->stateRepository->find($command->stateId);
         Assert::notNull($state, 'Unknown state provided');
-        $story = Story::create(new StoryTitle($command->title), $state);
+        $ordering = $this->storyRepository->getMaximumOrdering($command->stateId) + 10;
+        $story    = Story::create(new StoryTitle($command->title), $state, $ordering);
         $this->storyRepository->create($story);
 
         return $story->getId();

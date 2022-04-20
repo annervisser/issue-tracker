@@ -1,5 +1,5 @@
 import { BehaviorSubject, distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
-import produce, { Draft, freeze, Immutable } from 'immer';
+import produce, { applyPatches, Draft, freeze, Immutable, produceWithPatches } from 'immer';
 import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
 
 
@@ -31,6 +31,14 @@ abstract class _ComponentState<InitialState extends object, STATE = StateOf<Init
 
     protected updateState(updateFn: (draft: Draft<STATE>) => Draft<STATE> | void): void {
         this.state = produce(this.state, updateFn);
+    }
+
+    protected optimisticUpdate(updateFn: (draft: Draft<STATE>) => void): { confirm: () => void; revert: () => void } {
+        const [newState, _, inversePatches] = produceWithPatches(this.state, updateFn);
+        this.state = newState;
+        const revert = () => this.state = applyPatches(this.state, inversePatches);
+        const confirm = () => undefined;
+        return { revert, confirm };
     }
 
     protected select$<T>(selector: (state: STATE) => T): Observable<T> {

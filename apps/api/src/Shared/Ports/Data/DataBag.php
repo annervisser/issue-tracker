@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shared\Ports\Data;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Shared\Domain\Assert;
@@ -22,6 +23,14 @@ class DataBag
         Assert::isMap($data);
 
         return new self($data);
+    }
+
+    public static function fromRequestBody(ServerRequestInterface $request): self
+    {
+        $requestData = $request->getParsedBody();
+        Assert::isArray($requestData);
+
+        return self::fromArray($requestData);
     }
 
     public function getString(string $key): string
@@ -50,7 +59,19 @@ class DataBag
 
     public function getUuid(string $key): UuidInterface
     {
+        $value = $this->getUuidOrNull($key);
+        Assert::notNull($value);
+
+        return $value;
+    }
+
+    public function getUuidOrNull(string $key): UuidInterface|null
+    {
         $value = $this->getValue($key);
+        if ($value === null) {
+            return null;
+        }
+
         Assert::string($value);
         Assert::uuid($value);
         $uuid = Uuid::fromString($value);

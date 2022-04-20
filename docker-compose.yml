@@ -14,6 +14,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./apps/api:/srv/app
+      - "./apps/api/deployment/php.ini:/usr/local/etc/php/conf.d/php.overrides.ini"
     depends_on:
       - database
   caddy:
@@ -23,7 +24,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./apps/api/Caddyfile:/etc/caddy/Caddyfile
+      - ./apps/api/deployment/Caddyfile:/etc/caddy/Caddyfile
       - ./apps/api:/srv/app
       - caddy_data:/data
       - caddy_config:/config

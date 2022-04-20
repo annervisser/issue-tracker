@@ -32,15 +32,13 @@ export class BoardComponent implements OnInit {
     trackByStoryId: TrackByFunction<Story> = (index, item) => item.id;
     trackByStateId: TrackByFunction<State> = (index, item) => item.id;
 
-    drop(event: CdkDragDrop<string, string, string>) {
+    async drop(event: CdkDragDrop<string, string, string>) {
         const stateId = event.container.data;
         const previousStateId = event.previousContainer.data;
         const storyId = event.item.data;
-
-        if (stateId !== previousStateId) {
-            this.boardStore.moveStory(storyId, stateId);
+        if (stateId === previousStateId && event.currentIndex === event.previousIndex) {
+            return;
         }
-
-        this.boardStore.reorderStory(storyId, stateId, event.currentIndex);
+        await this.boardStore.moveStory(storyId, stateId, event.currentIndex);
     }
 }

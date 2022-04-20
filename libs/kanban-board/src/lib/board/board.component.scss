@@ -8,6 +8,8 @@
 
 .column {
     flex: 1 0;
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
 
     h2 {
@@ -17,9 +19,9 @@
     }
 
     .column-content {
+        flex: 1 0;
         display: flex;
         flex-direction: column;
-        border-radius: 4px;
         gap: 1rem;
     }
 
@@ -45,8 +47,9 @@
     display: contents;
 }
 
-.cdk-drop-list-receiving { // Any column that could be a drop target
-    min-height: 2rem;
+.cdk-drop-list {
+    position: relative;
+    width: 100%;
 }
 
 .cdk-drag { // All drag items
@@ -57,8 +60,12 @@
     transition: transform 250ms cubic-bezier(.2, 0, 0, 1);
 }
 
+.cdk-drop-list-receiving .cdk-drag:first-child {
+    transition: none !important;
+}
+
 .cdk-drag-animating { // The dragged item transition from dragging to being placed
-    transition: transform 100ms cubic-bezier(.2, 0, 0, 1);
+    transition: transform 250ms cubic-bezier(.2, 0, 0, 1);
 }
 
 .cdk-drag-placeholder { // the placeholder item in the current drop position

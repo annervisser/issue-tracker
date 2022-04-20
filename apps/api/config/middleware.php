@@ -28,8 +28,9 @@ return static function (App $app): void {
     $app->add(function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         // TODO do this properly, instead of allowing everything
         return $handler->handle($request)
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', '*')
+            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:4200')
+            ->withHeader('Access-Control-Allow-Credentials', 'true')
+            ->withHeader('Access-Control-Allow-Headers', 'Content-Type')
             ->withHeader('Access-Control-Allow-Methods', '*');
     });
 };

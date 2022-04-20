@@ -54,48 +54,95 @@ export class BoardStore extends ComponentState<BoardState> {
 
     public deleteStory(storyId: string) {
         this.storyClient.deleteStory(storyId).then(() => {
-            let storyStateId: string;
-            let storyIndex: number;
-
-            for (const [stateId, stories] of Object.entries(this.state.storiesByState)) {
-                storyIndex = stories.findIndex(s => s.id === storyId);
-                if (storyIndex > -1) {
-                    storyStateId = stateId;
-                    break;
-                }
-            }
+            const { stateId, storyIndex } = this.findStory(storyId);
 
             this.updateState(draft => {
-                draft.storiesByState[storyStateId].splice(storyIndex, 1);
+                draft.storiesByState[stateId].splice(storyIndex, 1);
             });
         });
     }
 
-    moveStory(storyId: string, stateId: string) {
-        const state = this.state;
-        const [previousStateId] = Object.entries(state.storiesByState)
-            .find(([_, stories]) => stories.some(story => story.id === storyId)) ?? [];
+    async moveStory(storyId: string, stateId: string, moveToIndex: number): Promise<void> {
+        const { stateId: currentStateId } = this.findStory(storyId);
 
-        if (!previousStateId) {
-            throw new Error('Story doesnt exist in any state');
+        let movePromise: Promise<void> = Promise.resolve();
+        if (stateId !== currentStateId) {
+            movePromise = this.changeStoryStateTo(storyId, stateId);
         }
 
-        const indexInPreviousState = state.storiesByState[previousStateId].findIndex(story => story.id === storyId);
-        const story = state.storiesByState[previousStateId][indexInPreviousState];
+        const {
+            confirm: confirmReorder,
+            revert: revertReorder
+        } = this.reorderStoryLocally(storyId, stateId, moveToIndex);
+        const afterStory = this.state.storiesByState[stateId][moveToIndex - 1]?.id || null;
 
-        this.updateState(draft => {
+        try {
+            await movePromise;
+            await this.storyClient.reorderStory(storyId, afterStory);
+            confirmReorder();
+        } catch (e) {
+            revertReorder();
+            throw e;
+        }
+    }
+
+    private async changeStoryStateTo(storyId: string, stateId: string) {
+        const { confirm, revert } = this.moveStoryLocally(storyId, stateId);
+        try {
+            await this.storyClient.changeState(storyId, stateId);
+            confirm();
+            return;
+        } catch (e) {
+            revert();
+            throw e;
+        }
+    }
+
+    //
+    // async reorderStory(storyId: string, stateId: string, moveToIndex: number): Promise<void> {
+    //     const { confirm, revert } = this.reorderStoryLocally(storyId, stateId, moveToIndex);
+    //     const afterStory = this.state.storiesByState[stateId][moveToIndex - 1]?.id;
+    //
+    //     try {
+    //         await this.storyClient.reorderStory(storyId, afterStory);
+    //         confirm();
+    //         return;
+    //     } catch (e) {
+    //         revert();
+    //         throw e;
+    //     }
+    // }
+
+    private moveStoryLocally(storyId: string, stateId: string) {
+        const { stateId: previousStateId, storyIndex: indexInPreviousState, story } = this.findStory(storyId);
+
+        const { confirm, revert } = this.optimisticUpdate(draft => {
             draft.storiesByState[previousStateId].splice(indexInPreviousState, 1);
             draft.storiesByState[stateId].push(story);
         });
+        return { confirm, revert };
     }
 
-    reorderStory(storyId: string, stateId: string, moveToIndex: number) {
-        const state = this.state;
-        const currentIndex = state.storiesByState[stateId].findIndex(story => story.id === storyId);
-        const story = state.storiesByState[stateId][currentIndex];
-        this.updateState(draft => {
+    private reorderStoryLocally(storyId: string, stateId: string, moveToIndex: number) {
+        const { story, storyIndex: currentIndex } = this.findStory(storyId);
+
+        return this.optimisticUpdate(draft => {
             draft.storiesByState[stateId].splice(currentIndex, 1);
             draft.storiesByState[stateId].splice(moveToIndex, 0, story);
         });
+    }
+
+    private findStory(storyId: string): { storyIndex: number; stateId: string; story: Story } {
+        const storiesByState = this.state.storiesByState;
+
+        for (const [stateId, stories] of Object.entries(storiesByState)) {
+            const storyIndex = stories.findIndex(s => s.id === storyId);
+            const story = stories[storyIndex];
+            if (storyIndex > -1) {
+                return { story, stateId, storyIndex };
+            }
+        }
+
+        throw new Error('Story not found');
     }
 }

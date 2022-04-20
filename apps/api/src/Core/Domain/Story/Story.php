@@ -30,15 +30,20 @@ class Story extends Aggregate
     #[Column]
     private readonly DateTimeImmutable $createdAt;
 
+    #[Column]
+    private int $ordering;
+
     #[ManyToOne(fetch: 'EAGER'), JoinColumn(nullable: false)]
     private State $state;
 
     private function __construct(
         StoryTitle $title,
-        State $state
+        State $state,
+        int $ordering,
     ) {
-        $this->title = $title;
-        $this->state = $state;
+        $this->title    = $title;
+        $this->state    = $state;
+        $this->ordering = $ordering;
 
         $this->id        = Uuid::uuid1();
         $this->createdAt = new DateTimeImmutable();
@@ -47,9 +52,10 @@ class Story extends Aggregate
 
     public static function create(
         StoryTitle $title,
-        State $state
+        State $state,
+        int $ordering,
     ): self {
-        return new self($title, $state);
+        return new self($title, $state, $ordering);
     }
 
     public function getId(): UuidInterface
@@ -67,14 +73,29 @@ class Story extends Aggregate
         return $this->title;
     }
 
-    public function changeTitle(StoryTitle $title): void
+    public function setTitle(StoryTitle $title): void
     {
         $this->raise(new TitleChangeEvent($this, $this->title, $title));
         $this->title = $title;
     }
 
+    public function getOrdering(): int
+    {
+        return $this->ordering;
+    }
+
+    public function setOrdering(int $ordering): void
+    {
+        $this->ordering = $ordering;
+    }
+
     public function getState(): State
     {
         return $this->state;
+    }
+
+    public function setState(State $state): void
+    {
+        $this->state = $state;
     }
 }
