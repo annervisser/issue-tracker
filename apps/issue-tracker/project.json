@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/issue-tracker",
   "sourceRoot": "apps/issue-tracker/src",
   "prefix": "issue-tracker",
   "targets": {
@@ -85,7 +84,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/issue-tracker"],
       "options": {
-        "jestConfig": "apps/issue-tracker/jest.config.js",
+        "jestConfig": "apps/issue-tracker/jest.config.ts",
         "passWithNoTests": true
       }
     }

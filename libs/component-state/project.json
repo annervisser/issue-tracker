@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/component-state",
   "sourceRoot": "libs/component-state/src",
   "prefix": "issue-tracker",
   "targets": {
@@ -10,7 +9,7 @@
         "coverage/libs/component-state"
       ],
       "options": {
-        "jestConfig": "libs/component-state/jest.config.js",
+        "jestConfig": "libs/component-state/jest.config.ts",
         "passWithNoTests": true
       }
     },

@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/data-access",
   "sourceRoot": "libs/data-access/src",
   "prefix": "issue-tracker",
   "targets": {
@@ -10,7 +9,7 @@
         "coverage/libs/data-access"
       ],
       "options": {
-        "jestConfig": "libs/data-access/jest.config.js",
+        "jestConfig": "libs/data-access/jest.config.ts",
         "passWithNoTests": true
       }
     },

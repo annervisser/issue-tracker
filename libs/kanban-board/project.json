@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/kanban-board",
   "sourceRoot": "libs/kanban-board/src",
   "prefix": "issue-tracker",
   "targets": {
@@ -10,7 +9,7 @@
         "coverage/libs/kanban-board"
       ],
       "options": {
-        "jestConfig": "libs/kanban-board/jest.config.js",
+        "jestConfig": "libs/kanban-board/jest.config.ts",
         "passWithNoTests": true
       }
     },
